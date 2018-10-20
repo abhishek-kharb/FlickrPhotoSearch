@@ -11,7 +11,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FlickrPhotoDataModel : NSObject
-
+@property (nonatomic) NSNumber *farm;
+@property (nonatomic) NSString *identifier;
+@property (nonatomic) NSString *owner;
+@property (nonatomic) NSString *secret;
+@property (nonatomic) NSString *server;
+@property (nonatomic) NSString *title;
 @end
 
 NS_ASSUME_NONNULL_END
