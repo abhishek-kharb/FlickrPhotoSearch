@@ -9,7 +9,7 @@
 #import "FlickrViewController.h"
 #import "FlickrPhotoCollectionViewCell.h"
 
-@interface FlickrViewController () <FlickrDataSourceDelegateProtocol, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface FlickrViewController () <FlickrDataSourceDelegateProtocol, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate>
 @property (nonatomic)id<FlickrDataSourceProtocol> dataSource;
 @property (nonatomic) UISearchBar *searchBar;
 @property (nonatomic) UICollectionView *photosCollectionView;
@@ -68,6 +68,7 @@ static NSInteger kCollectionViewRowItems = 3;
     
     self.photosCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
     self.photosCollectionView.dataSource = self;
+    self.photosCollectionView.delegate = self;
     self.photosCollectionView.bounces = YES;
     self.photosCollectionView.alwaysBounceVertical = YES;
     self.photosCollectionView.showsHorizontalScrollIndicator = NO;
@@ -84,6 +85,7 @@ static NSInteger kCollectionViewRowItems = 3;
     [self.photosCollectionView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
     [self.photosCollectionView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
     
+    [self.photosCollectionView registerClass:[FlickrPhotoCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([FlickrPhotoCollectionViewCell class])];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout Methods
@@ -133,6 +135,9 @@ static NSInteger kCollectionViewRowItems = 3;
 #pragma mark FlickrDataSourceDelegateProtocol Methods
 - (void)fetchedDataAvailable {
     //Datasource has updated its data. Reload UI to reflect the changes.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.photosCollectionView reloadData];
+    });
 }
 
 @end
