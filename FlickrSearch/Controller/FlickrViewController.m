@@ -9,11 +9,13 @@
 #import "FlickrViewController.h"
 #import "FlickrPhotoCollectionViewCell.h"
 
-@interface FlickrViewController () <FlickrDataSourceDelegateProtocol, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate>
+@interface FlickrViewController () <FlickrDataSourceDelegateProtocol, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UIScrollViewDelegate>
 @property (nonatomic)id<FlickrDataSourceProtocol> dataSource;
 @property (nonatomic) UISearchBar *searchBar;
 @property (nonatomic) UICollectionView *photosCollectionView;
 @property (nonatomic) NSString *searchString;
+@property (nonatomic) BOOL isFetchedDataAvailable;
+@property (nonatomic) BOOL isFetchInProgress;
 @end
 
 static CGFloat kSearchBarHeightConstant = 50.0f;
@@ -136,8 +138,23 @@ static NSInteger kCollectionViewRowItems = 3;
 - (void)fetchedDataAvailable {
     //Datasource has updated its data. Reload UI to reflect the changes.
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.isFetchedDataAvailable = YES;
+        self.isFetchInProgress = NO;
         [self.photosCollectionView reloadData];
     });
 }
+
+#pragma mark - UIScrollViewDelegate Methods
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat offsetY = scrollView.contentOffset.y;
+    CGFloat contentHeight = scrollView.contentSize.height;
+    /*As this method gets called multiple times while we scroll down, to avoid multiple calls to fetch next batch, we keep
+    a flag isFetchInProgress to serve just the first callback and ignore the rest until data is fetched from server. */
+    if (self.isFetchedDataAvailable && !self.isFetchInProgress && (offsetY > (contentHeight - scrollView.frame.size.height))) {
+        self.isFetchInProgress = YES;
+        [self.dataSource fetchNextBatch];
+    }
+}
+
 
 @end

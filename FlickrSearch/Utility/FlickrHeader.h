@@ -34,6 +34,7 @@ typedef void (^FlickrPhotoFetchSuccessBlock)(NSData *data);
 @property (nonatomic, weak) id<FlickrDataSourceDelegateProtocol>delegate;
 
 - (void)fetchResultsWithSearchString:(NSString *)searchString;
+- (void)fetchNextBatch;
 - (NSInteger)numberOfItemsInSection:(NSInteger)section;
 - (FlickrPhotoDataModel *)photoDataForItemAtIndexPath:(NSIndexPath *)indexPath;
 

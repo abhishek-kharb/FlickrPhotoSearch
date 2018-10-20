@@ -59,6 +59,11 @@ static NSInteger kFlickrPageFetchSize = 24;
                                       }];
 }
 
+- (void)fetchNextBatch {
+    self.nextPageToFetch ++;
+    [self fetchResultsWithSearchString:self.searchString];
+}
+
 - (NSInteger)numberOfItemsInSection:(NSInteger)section {
     __block NSInteger totalItems;
     dispatch_sync([self dataProcessQueue], ^{
