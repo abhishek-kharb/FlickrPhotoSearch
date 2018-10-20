@@ -8,6 +8,7 @@
 
 #import "FlickrViewController.h"
 #import "FlickrPhotoCollectionViewCell.h"
+#import "FlickrLoaderView.h"
 
 @interface FlickrViewController () <FlickrDataSourceDelegateProtocol, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UIScrollViewDelegate>
 @property (nonatomic)id<FlickrDataSourceProtocol> dataSource;
@@ -21,6 +22,7 @@
 static CGFloat kSearchBarHeightConstant = 50.0f;
 static CGFloat kCollectionViewTopPadding = 5.0f;
 static CGFloat kCollectionViewCellPadding = 5.0f;
+static CGFloat kCollectionViewFooterHeight = 100.0f;
 static NSInteger kCollectionViewRowItems = 3;
 
 @implementation FlickrViewController
@@ -88,6 +90,7 @@ static NSInteger kCollectionViewRowItems = 3;
     [self.photosCollectionView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
     
     [self.photosCollectionView registerClass:[FlickrPhotoCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([FlickrPhotoCollectionViewCell class])];
+    [self.photosCollectionView registerClass:[FlickrLoaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([FlickrLoaderView class])];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout Methods
@@ -109,6 +112,10 @@ static NSInteger kCollectionViewRowItems = 3;
     return kCollectionViewCellPadding;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    return CGSizeMake(collectionView.bounds.size.width, kCollectionViewFooterHeight);
+}
+
 #pragma mark - UICollectionViewDataSource Methods
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     FlickrPhotoCollectionViewCell *photoCell = (FlickrPhotoCollectionViewCell *)[self.photosCollectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([FlickrPhotoCollectionViewCell class]) forIndexPath:indexPath];
@@ -121,6 +128,14 @@ static NSInteger kCollectionViewRowItems = 3;
     return [self.dataSource numberOfItemsInSection:section];
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+        FlickrLoaderView *loaderView = (FlickrLoaderView *)[collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([FlickrLoaderView class]) forIndexPath:indexPath];
+        [loaderView setHidden:!self.isFetchedDataAvailable];
+        return loaderView;
+    }
+    return nil;
+}
 
 #pragma mark - UISearchBarDelegate Methods
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
