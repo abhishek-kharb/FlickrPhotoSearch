@@ -7,6 +7,7 @@
 //
 
 #import "FlickrPhotoCollectionViewCell.h"
+#import "FlickrPhotoDataManager.h"
 
 @implementation FlickrPhotoCollectionViewCell
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -38,6 +39,16 @@
 }
 
 - (void)configureCellWithPhotoData:(FlickrPhotoDataModel *)photoData {
+    if (photoData) {
+        NSString *initialID = photoData.identifier;
+        [[FlickrPhotoDataManager sharedManager] thumbnailForImageWithData:photoData completion:^(NSString * _Nonnull photoID, UIImage * _Nonnull image) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([photoID isEqualToString:initialID] && !self.thumbnailView.image) {
+                    [self.thumbnailView setImage:image];
+                }
+            });
+        }];
+    }
 }
 
 
