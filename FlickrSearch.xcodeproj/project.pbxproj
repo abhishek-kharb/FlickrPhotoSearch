@@ -23,6 +23,8 @@
 		34259536217B204900CC289C /* FlickrViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrViewController.m; sourceTree = "<group>"; };
 		34259539217B208400CC289C /* FlickrNetworkHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrNetworkHandler.h; sourceTree = "<group>"; };
 		3425953A217B208400CC289C /* FlickrNetworkHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrNetworkHandler.m; sourceTree = "<group>"; };
+		3425953D217B262800CC289C /* FlickrHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrHeader.h; sourceTree = "<group>"; };
+		3425953E217B268800CC289C /* FlickrPrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrPrefixHeader.pch; sourceTree = "<group>"; };
 		347897B5217B1D3D008A5667 /* FlickrSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		347897B8217B1D3D008A5667 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		347897B9217B1D3D008A5667 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -70,6 +72,22 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		3425953C217B260D00CC289C /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				3425953D217B262800CC289C /* FlickrHeader.h */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		34259540217B33BB00CC289C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3425953E217B268800CC289C /* FlickrPrefixHeader.pch */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		347897AC217B1D3D008A5667 = {
 			isa = PBXGroup;
 			children = (
@@ -91,7 +109,9 @@
 			children = (
 				34259538217B205400CC289C /* Network */,
 				34259534217B202A00CC289C /* Controller */,
+				3425953C217B260D00CC289C /* Utility */,
 				34259530217B1FDF00CC289C /* Data Source */,
+				34259540217B33BB00CC289C /* Supporting Files */,
 				347897B8217B1D3D008A5667 /* AppDelegate.h */,
 				347897B9217B1D3D008A5667 /* AppDelegate.m */,
 				347897C1217B1D3E008A5667 /* Assets.xcassets */,
@@ -311,6 +331,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WAX3HX8H2S;
+				GCC_PREFIX_HEADER = "FlickrSearch/Supporting Files/FlickrPrefixHeader.pch";
 				INFOPLIST_FILE = FlickrSearch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -328,6 +349,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WAX3HX8H2S;
+				GCC_PREFIX_HEADER = "FlickrSearch/Supporting Files/FlickrPrefixHeader.pch";
 				INFOPLIST_FILE = FlickrSearch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
