@@ -25,6 +25,8 @@ Following are some of the main components of the architecture used in this proje
 * Any checks needed to be put on the response data before adding it to the data source go into this class.
 * As of now we only validate the info needed to construct the URL to fetch the image, but more checks can be added on scaling the project, say checking for Title, Owner etc.
 
+## FlickrHeader:
+All the protocols and typedefs that are needed throughout the project are added to this header file. This file is added to the pch file of the project to avoid being imported everywhere.
 
 ### Requirements
 * iOS 10.0 and above.
