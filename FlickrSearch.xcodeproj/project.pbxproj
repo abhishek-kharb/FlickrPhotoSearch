@@ -14,6 +14,7 @@
 		34259547217B430000CC289C /* FlickrPhotoDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259546217B430000CC289C /* FlickrPhotoDataModel.m */; };
 		3425954A217B43B700CC289C /* FlickrNetworkSearchParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259549217B43B700CC289C /* FlickrNetworkSearchParameters.m */; };
 		3425954D217B477800CC289C /* FlickrSearchResponseValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3425954C217B477800CC289C /* FlickrSearchResponseValidator.m */; };
+		34259551217B582A00CC289C /* FlickrPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259550217B582A00CC289C /* FlickrPhotoCollectionViewCell.m */; };
 		347897C2217B1D3E008A5667 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 347897C1217B1D3E008A5667 /* Assets.xcassets */; };
 		347897C5217B1D3E008A5667 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 347897C3217B1D3E008A5667 /* LaunchScreen.storyboard */; };
 		347897C8217B1D3E008A5667 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 347897C7217B1D3E008A5667 /* main.m */; };
@@ -36,6 +37,8 @@
 		34259549217B43B700CC289C /* FlickrNetworkSearchParameters.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrNetworkSearchParameters.m; sourceTree = "<group>"; };
 		3425954B217B477800CC289C /* FlickrSearchResponseValidator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrSearchResponseValidator.h; sourceTree = "<group>"; };
 		3425954C217B477800CC289C /* FlickrSearchResponseValidator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrSearchResponseValidator.m; sourceTree = "<group>"; };
+		3425954F217B582A00CC289C /* FlickrPhotoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrPhotoCollectionViewCell.h; sourceTree = "<group>"; };
+		34259550217B582A00CC289C /* FlickrPhotoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		347897B5217B1D3D008A5667 /* FlickrSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		347897C1217B1D3E008A5667 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		347897C4217B1D3E008A5667 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -110,6 +113,15 @@
 			path = DataModel;
 			sourceTree = "<group>";
 		};
+		3425954E217B580B00CC289C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				3425954F217B582A00CC289C /* FlickrPhotoCollectionViewCell.h */,
+				34259550217B582A00CC289C /* FlickrPhotoCollectionViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		347897AC217B1D3D008A5667 = {
 			isa = PBXGroup;
 			children = (
@@ -129,18 +141,19 @@
 		347897B7217B1D3D008A5667 /* FlickrSearch */ = {
 			isa = PBXGroup;
 			children = (
+				34259541217B355B00CC289C /* FlickrAppDelegate.h */,
+				34259542217B355B00CC289C /* FlickrAppDelegate.m */,
 				34259544217B42DE00CC289C /* DataModel */,
 				34259538217B205400CC289C /* Network */,
 				34259534217B202A00CC289C /* Controller */,
 				3425953C217B260D00CC289C /* Utility */,
 				34259530217B1FDF00CC289C /* Data Source */,
+				3425954E217B580B00CC289C /* View */,
 				34259540217B33BB00CC289C /* Supporting Files */,
 				347897C1217B1D3E008A5667 /* Assets.xcassets */,
 				347897C3217B1D3E008A5667 /* LaunchScreen.storyboard */,
 				347897C6217B1D3E008A5667 /* Info.plist */,
 				347897C7217B1D3E008A5667 /* main.m */,
-				34259541217B355B00CC289C /* FlickrAppDelegate.h */,
-				34259542217B355B00CC289C /* FlickrAppDelegate.m */,
 			);
 			path = FlickrSearch;
 			sourceTree = "<group>";
@@ -220,6 +233,7 @@
 				34259537217B204900CC289C /* FlickrViewController.m in Sources */,
 				3425954A217B43B700CC289C /* FlickrNetworkSearchParameters.m in Sources */,
 				3425953B217B208400CC289C /* FlickrNetworkHandler.m in Sources */,
+				34259551217B582A00CC289C /* FlickrPhotoCollectionViewCell.m in Sources */,
 				34259543217B355B00CC289C /* FlickrAppDelegate.m in Sources */,
 				34259547217B430000CC289C /* FlickrPhotoDataModel.m in Sources */,
 			);
