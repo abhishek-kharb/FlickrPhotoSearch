@@ -14,6 +14,7 @@
 @property (nonatomic) id<FlickrDataSourceProtocol> dataSource;
 @property (nonatomic) UISearchBar *searchBar;
 @property (nonatomic) UICollectionView *photosCollectionView;
+@property (nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic) NSString *searchString;
 @property (nonatomic) BOOL isFetchedDataAvailable;
 @property (nonatomic) BOOL isFetchInProgress;
@@ -43,6 +44,7 @@ static NSInteger kCollectionViewRowItems = 3;
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self setupSearchBar];
     [self setupPhotosCollectionView];
+    [self setupActivityIndicator];
 }
 
 #pragma mark - Action Methods
@@ -94,12 +96,23 @@ static NSInteger kCollectionViewRowItems = 3;
 }
 
 - (void)showErrorAlert {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Could not fetch data! Please check your internet." preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleDefault handler:nil];
-        [alertController addAction:defaultAction];
-        [self presentViewController:alertController animated:YES completion:nil];
-    });
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Could not fetch data! Please check your internet." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:defaultAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)setupActivityIndicator {
+    self.activityIndicator = [[UIActivityIndicatorView alloc] init];
+    [self.view addSubview:self.activityIndicator];
+    [self.activityIndicator setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.activityIndicator.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.activityIndicator.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    [self.activityIndicator.topAnchor constraintEqualToAnchor:self.searchBar.bottomAnchor].active = YES;
+    [self.activityIndicator.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
+    [self.activityIndicator setColor:[UIColor blackColor]];
+    [self.activityIndicator setHidden:YES];
+    [self.activityIndicator setUserInteractionEnabled:NO];
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout Methods
@@ -151,6 +164,7 @@ static NSInteger kCollectionViewRowItems = 3;
     self.searchString = searchBar.text;
     self.isFetchInProgress = YES;
     self.isFetchedDataAvailable = NO;
+    [self.activityIndicator setHidden:NO];
     [searchBar resignFirstResponder];
     [self.dataSource fetchResultsWithSearchString:self.searchString];
 }
@@ -166,14 +180,18 @@ static NSInteger kCollectionViewRowItems = 3;
     dispatch_async(dispatch_get_main_queue(), ^{
         self.isFetchedDataAvailable = YES;
         self.isFetchInProgress = NO;
+        [self.activityIndicator setHidden:YES];
         [self.photosCollectionView reloadData];
     });
 }
 
 - (void)couldNotFetchData {
-    if (!self.isFetchedDataAvailable) {
-        [self showErrorAlert];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.activityIndicator setHidden:YES];
+        if (!self.isFetchedDataAvailable) {
+            [self showErrorAlert];
+        }
+    });
 }
 
 #pragma mark - UIScrollViewDelegate Methods
