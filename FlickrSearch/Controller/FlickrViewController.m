@@ -8,13 +8,17 @@
 
 #import "FlickrViewController.h"
 
-@interface FlickrViewController () <FlickrDataSourceDelegateProtocol, UISearchBarDelegate>
+@interface FlickrViewController () <FlickrDataSourceDelegateProtocol, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (nonatomic)id<FlickrDataSourceProtocol> dataSource;
 @property (nonatomic) UISearchBar *searchBar;
+@property (nonatomic) UICollectionView *photosCollectionView;
 @property (nonatomic) NSString *searchString;
 @end
 
 static CGFloat kSearchBarHeightConstant = 50.0f;
+static CGFloat kCollectionViewTopPadding = 5.0f;
+static CGFloat kCollectionViewCellPadding = 5.0f;
+static NSInteger kCollectionViewRowItems = 3;
 
 @implementation FlickrViewController
 
@@ -31,7 +35,9 @@ static CGFloat kSearchBarHeightConstant = 50.0f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setTitle:@"Photo Search"];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     [self setupSearchBar];
+    [self setupPhotosCollectionView];
 }
 
 #pragma mark - Action Methods
@@ -53,6 +59,51 @@ static CGFloat kSearchBarHeightConstant = 50.0f;
     [self.searchBar setDelegate:self];
     [self.searchBar setPlaceholder:@"Enter text and press search..."];
 }
+
+- (void)setupPhotosCollectionView {
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    flowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    flowLayout.sectionHeadersPinToVisibleBounds = NO;
+    
+    self.photosCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+    self.photosCollectionView.dataSource = self;
+    self.photosCollectionView.bounces = YES;
+    self.photosCollectionView.alwaysBounceVertical = YES;
+    self.photosCollectionView.showsHorizontalScrollIndicator = NO;
+    self.photosCollectionView.showsVerticalScrollIndicator = NO;
+    [self.photosCollectionView setBackgroundColor:[UIColor whiteColor]];
+    
+    if (@available(iOS 10.0, *)) {
+        self.photosCollectionView.prefetchingEnabled = NO;
+    }
+    [self.view addSubview:self.photosCollectionView];
+    [self.photosCollectionView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [self.photosCollectionView.topAnchor constraintEqualToAnchor:self.searchBar.bottomAnchor constant:kCollectionViewTopPadding].active = YES;
+    [self.photosCollectionView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor].active = YES;
+    [self.photosCollectionView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor].active = YES;
+    [self.photosCollectionView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = YES;
+    
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout Methods
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat paddingBetweenCells = (kCollectionViewRowItems - 1) * kCollectionViewCellPadding;
+    CGFloat width = (self.photosCollectionView.bounds.size.width/kCollectionViewRowItems) - paddingBetweenCells;
+    return CGSizeMake(width, width);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(kCollectionViewCellPadding, kCollectionViewCellPadding, kCollectionViewCellPadding, kCollectionViewCellPadding);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+    return kCollectionViewCellPadding;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+    return kCollectionViewCellPadding;
+}
+
 
 #pragma mark - UISearchBarDelegate Methods
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
