@@ -95,8 +95,8 @@ static NSInteger kCollectionViewRowItems = 3;
     [self.photosCollectionView registerClass:[FlickrLoaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([FlickrLoaderView class])];
 }
 
-- (void)showErrorAlert {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Could not fetch data! Please check your internet." preferredStyle:UIAlertControllerStyleAlert];
+- (void)showErrorAlertWithMessage:(NSString *)message {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:defaultAction];
     [self presentViewController:alertController animated:YES completion:nil];
@@ -161,12 +161,17 @@ static NSInteger kCollectionViewRowItems = 3;
 
 #pragma mark - UISearchBarDelegate Methods
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    self.searchString = searchBar.text;
-    self.isFetchInProgress = YES;
-    self.isFetchedDataAvailable = NO;
-    [self.activityIndicator setHidden:NO];
-    [searchBar resignFirstResponder];
-    [self.dataSource fetchResultsWithSearchString:self.searchString];
+    NSString *searchString = [searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (searchString.length) {
+        self.searchString = searchString;
+        self.isFetchInProgress = YES;
+        self.isFetchedDataAvailable = NO;
+        [self.activityIndicator setHidden:NO];
+        [searchBar resignFirstResponder];
+        [self.dataSource fetchResultsWithSearchString:self.searchString];
+    } else {
+        [self showErrorAlertWithMessage:@"Please enter a valid string!"];
+    }
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
@@ -185,11 +190,11 @@ static NSInteger kCollectionViewRowItems = 3;
     });
 }
 
-- (void)couldNotFetchData {
+- (void)couldNotFetchDataWithErrorMessage:(NSString *)errorMessage {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.activityIndicator setHidden:YES];
         if (!self.isFetchedDataAvailable) {
-            [self showErrorAlert];
+            [self showErrorAlertWithMessage:errorMessage];
         }
     });
 }

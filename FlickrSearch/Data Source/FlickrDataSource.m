@@ -21,6 +21,7 @@
 static NSString *kDataProcessQueue = @"com.flickr.data.process.queue";
 static NSString *kFlickrPhotosMethod = @"flickr.photos";
 static NSInteger kFlickrPageFetchSize = 24;
+static NSInteger kNoInternetErrorKey = -1009;
 
 @implementation FlickrDataSource
 @synthesize delegate;
@@ -56,7 +57,7 @@ static NSInteger kFlickrPageFetchSize = 24;
                                           }
                                       }
                                       failureBlock:^(NSError * _Nonnull error) {
-                                          [weakSelf.delegate couldNotFetchData];
+                                          [weakSelf informDelegateOfError:error];
                                       }];
 }
 
@@ -141,7 +142,7 @@ static NSInteger kFlickrPageFetchSize = 24;
                 //If the in memory data array is empty and fetch returns no meaningful data, we inform the delegate to show error alert.
                 dispatch_async([self dataProcessQueue], ^{
                     if (!self.searchResults.count) {
-                        [self.delegate couldNotFetchData];
+                        [self informDelegateOfError:nil];
                     }
                 });
             }
@@ -149,4 +150,11 @@ static NSInteger kFlickrPageFetchSize = 24;
     }
 }
 
+- (void)informDelegateOfError:(NSError *)error {
+    NSString *errorMessage = @"Could not fetch data. Please try again later.";
+    if (error.code == kNoInternetErrorKey) {
+        errorMessage = @"Your internet connection appears to be offline.";
+    }
+    [self.delegate couldNotFetchDataWithErrorMessage:errorMessage];
+}
 @end
