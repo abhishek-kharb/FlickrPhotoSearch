@@ -56,6 +56,7 @@ static NSInteger kFlickrPageFetchSize = 24;
                                           }
                                       }
                                       failureBlock:^(NSError * _Nonnull error) {
+                                          [weakSelf.delegate couldNotFetchData];
                                       }];
 }
 
@@ -136,6 +137,13 @@ static NSInteger kFlickrPageFetchSize = 24;
             if (preprocessedData.count > 0) {
                 //Append data to currently maintained array
                 [self addDataToCurrentObjects:preprocessedData];
+            } else {
+                //If the in memory data array is empty and fetch returns no meaningful data, we inform the delegate to show error alert.
+                dispatch_async([self dataProcessQueue], ^{
+                    if (!self.searchResults.count) {
+                        [self.delegate couldNotFetchData];
+                    }
+                });
             }
         }
     }

@@ -28,6 +28,7 @@ typedef void (^FlickrPhotoFetchSuccessBlock)(NSData *data);
 
 @protocol FlickrDataSourceDelegateProtocol <NSObject>
 - (void)fetchedDataAvailable;
+- (void)couldNotFetchData;
 @end
 
 @protocol FlickrDataSourceProtocol <NSObject>

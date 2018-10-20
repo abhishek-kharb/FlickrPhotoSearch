@@ -11,7 +11,7 @@
 #import "FlickrLoaderView.h"
 
 @interface FlickrViewController () <FlickrDataSourceDelegateProtocol, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UIScrollViewDelegate>
-@property (nonatomic)id<FlickrDataSourceProtocol> dataSource;
+@property (nonatomic) id<FlickrDataSourceProtocol> dataSource;
 @property (nonatomic) UISearchBar *searchBar;
 @property (nonatomic) UICollectionView *photosCollectionView;
 @property (nonatomic) NSString *searchString;
@@ -93,6 +93,15 @@ static NSInteger kCollectionViewRowItems = 3;
     [self.photosCollectionView registerClass:[FlickrLoaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:NSStringFromClass([FlickrLoaderView class])];
 }
 
+- (void)showErrorAlert {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Error" message:@"Could not fetch data! Please check your internet." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:defaultAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    });
+}
+
 #pragma mark - UICollectionViewDelegateFlowLayout Methods
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat paddingBetweenCells = (kCollectionViewRowItems - 1) * kCollectionViewCellPadding;
@@ -140,6 +149,8 @@ static NSInteger kCollectionViewRowItems = 3;
 #pragma mark - UISearchBarDelegate Methods
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     self.searchString = searchBar.text;
+    self.isFetchInProgress = YES;
+    self.isFetchedDataAvailable = NO;
     [searchBar resignFirstResponder];
     [self.dataSource fetchResultsWithSearchString:self.searchString];
 }
@@ -157,6 +168,12 @@ static NSInteger kCollectionViewRowItems = 3;
         self.isFetchInProgress = NO;
         [self.photosCollectionView reloadData];
     });
+}
+
+- (void)couldNotFetchData {
+    if (!self.isFetchedDataAvailable) {
+        [self showErrorAlert];
+    }
 }
 
 #pragma mark - UIScrollViewDelegate Methods
