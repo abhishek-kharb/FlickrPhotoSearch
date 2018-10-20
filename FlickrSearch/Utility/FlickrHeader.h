@@ -11,6 +11,7 @@
 
 typedef void (^FlickrSearchResultSuccessBlock)(NSDictionary *responseInfo);
 typedef void (^FlickrSearchResultFailureBlock)(NSError *error);
+typedef void (^FlickrPhotoFetchSuccessBlock)(NSData *data);
 
 @protocol FlickrSearchRequestParameters <NSObject>
 @property (nonatomic) NSString *keyword;
@@ -19,15 +20,16 @@ typedef void (^FlickrSearchResultFailureBlock)(NSError *error);
 @property (nonatomic) NSInteger pageToFetch;
 @end
 
+@class FlickrPhotoDataModel;
 @protocol FlickrNetworkHandlerProtocol <NSObject>
 - (void)makeSearchRequestWithInfo:(id<FlickrSearchRequestParameters>)requestInfo successBlock:(FlickrSearchResultSuccessBlock)successBlock failureBlock:(FlickrSearchResultFailureBlock)failure;
+- (void)thumbnailForImageWithData:(FlickrPhotoDataModel *)data successBlock:(FlickrPhotoFetchSuccessBlock)successBlock failureBlock:(FlickrSearchResultFailureBlock)failure;
 @end
 
 @protocol FlickrDataSourceDelegateProtocol <NSObject>
 - (void)fetchedDataAvailable;
 @end
 
-@class FlickrPhotoDataModel;
 @protocol FlickrDataSourceProtocol <NSObject>
 @property (nonatomic, weak) id<FlickrDataSourceDelegateProtocol>delegate;
 
