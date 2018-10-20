@@ -10,8 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FlickrDataSource : NSObject
-
+@interface FlickrDataSource : NSObject <FlickrDataSourceProtocol>
+- (instancetype)initWithNetworkHandler:(id <FlickrNetworkHandlerProtocol>)networkHandler;
 @end
 
 NS_ASSUME_NONNULL_END

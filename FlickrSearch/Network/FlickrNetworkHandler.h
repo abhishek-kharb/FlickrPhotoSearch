@@ -10,8 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FlickrNetworkHandler : NSObject
-
+@interface FlickrNetworkHandler : NSObject <FlickrNetworkHandlerProtocol>
+- (instancetype)initWithNetworkAPIKey:(NSString *)apiKey;
 @end
 
 NS_ASSUME_NONNULL_END

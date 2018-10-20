@@ -9,11 +9,20 @@
 #import "FlickrViewController.h"
 
 @interface FlickrViewController ()
-
+@property (nonatomic)id<FlickrDataSourceProtocol> dataSource;
 @end
 
 @implementation FlickrViewController
 
+#pragma mark - Init Methods
+- (instancetype)initWithDataSource:(id<FlickrDataSourceProtocol>)dataSource {
+    if (self = [super init]) {
+        _dataSource = dataSource;
+    }
+    return self;
+}
+
+#pragma mark - View Methods
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

@@ -9,4 +9,9 @@
 #ifndef FlickrHeader_h
 #define FlickrHeader_h
 
+@protocol FlickrNetworkHandlerProtocol <NSObject>
+@end
+
+@protocol FlickrDataSourceProtocol <NSObject>
+@end
 #endif /* FlickrHeader_h */

@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FlickrViewController : UIViewController
-
+- (instancetype)initWithDataSource:(id<FlickrDataSourceProtocol>)dataSource;
 @end
 
 NS_ASSUME_NONNULL_END

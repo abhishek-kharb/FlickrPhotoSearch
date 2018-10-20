@@ -8,6 +8,18 @@
 
 #import "FlickrDataSource.h"
 
+@interface FlickrDataSource()
+@property (nonatomic) id<FlickrNetworkHandlerProtocol> networkHandler;
+@end
+
 @implementation FlickrDataSource
+
+#pragma mark - Init Methods
+- (instancetype)initWithNetworkHandler:(id <FlickrNetworkHandlerProtocol>)networkHandler {
+    if (self = [super init]) {
+        _networkHandler = networkHandler;
+    }
+    return self;
+}
 
 @end
