@@ -23,6 +23,7 @@ static NSString *kFlickrPhotosMethod = @"flickr.photos";
 static NSInteger kFlickrPageFetchSize = 24;
 
 @implementation FlickrDataSource
+@synthesize delegate;
 
 #pragma mark - Init Methods
 - (instancetype)initWithNetworkHandler:(id <FlickrNetworkHandlerProtocol>)networkHandler {
@@ -86,6 +87,7 @@ static NSInteger kFlickrPageFetchSize = 24;
     //it at the same time, leading to EXC_BAD_ACCESS crashes.
     dispatch_barrier_async([self dataProcessQueue], ^{
         [self.searchResults addObjectsFromArray:photoData];
+        [self.delegate fetchedDataAvailable];
     });
 }
 
@@ -115,6 +117,5 @@ static NSInteger kFlickrPageFetchSize = 24;
         }
     }
 }
-
 
 @end

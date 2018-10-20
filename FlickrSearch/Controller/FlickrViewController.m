@@ -8,7 +8,7 @@
 
 #import "FlickrViewController.h"
 
-@interface FlickrViewController ()
+@interface FlickrViewController () <FlickrDataSourceDelegateProtocol>
 @property (nonatomic)id<FlickrDataSourceProtocol> dataSource;
 @end
 
@@ -18,6 +18,7 @@
 - (instancetype)initWithDataSource:(id<FlickrDataSourceProtocol>)dataSource {
     if (self = [super init]) {
         _dataSource = dataSource;
+        _dataSource.delegate = self;
     }
     return self;
 }
@@ -26,6 +27,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+#pragma mark FlickrDataSourceDelegateProtocol Methods
+- (void)fetchedDataAvailable {
+    //Datasource has updated its data. Reload UI to reflect the changes.
 }
 
 @end

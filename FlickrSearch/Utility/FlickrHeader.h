@@ -23,7 +23,12 @@ typedef void (^FlickrSearchResultFailureBlock)(NSError *error);
 - (void)makeSearchRequestWithInfo:(id<FlickrSearchRequestParameters>)requestInfo successBlock:(FlickrSearchResultSuccessBlock)successBlock failureBlock:(FlickrSearchResultFailureBlock)failure;
 @end
 
+@protocol FlickrDataSourceDelegateProtocol <NSObject>
+- (void)fetchedDataAvailable;
+@end
+
 @protocol FlickrDataSourceProtocol <NSObject>
+@property (nonatomic, weak) id<FlickrDataSourceDelegateProtocol>delegate;
 - (void)fetchResultsWithSearchString:(NSString *)searchString;
 @end
 #endif /* FlickrHeader_h */
