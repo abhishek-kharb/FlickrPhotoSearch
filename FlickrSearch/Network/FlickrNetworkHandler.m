@@ -7,6 +7,7 @@
 //
 
 #import "FlickrNetworkHandler.h"
+#import "FlickrPhotoDataModel.h"
 
 @interface FlickrNetworkHandler()
 @property (nonatomic)NSString *apiKey;
@@ -50,6 +51,31 @@ static const NSString *kFlickrSearchBaseApi = @"https://api.flickr.com/services/
                     failure(error);
                 }
             }
+        } else {
+            failure(error);
+        }
+    }];
+    [sessionDataTask resume];
+}
+
+- (void)thumbnailForImageWithData:(FlickrPhotoDataModel *)data successBlock:(FlickrPhotoFetchSuccessBlock)successBlock failureBlock:(FlickrSearchResultFailureBlock)failure {
+    NSInteger farm = [data.farm integerValue];
+    NSString *server = data.server ?: @"";
+    NSString *secret = data.secret ?: @"";
+    NSString *photoID = data.identifier ?: @"";
+    
+    NSString *urlString = [NSString stringWithFormat:@"https://farm%ld.static.flickr.com/%@/%@_%@.jpg",farm,server,photoID,secret];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:[NSURL URLWithString:urlString]];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setTimeoutInterval:15];
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSURLSessionDataTask * sessionDataTask = [session dataTaskWithRequest: request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (data) {
+            successBlock(data);
         } else {
             failure(error);
         }
