@@ -27,8 +27,13 @@ typedef void (^FlickrSearchResultFailureBlock)(NSError *error);
 - (void)fetchedDataAvailable;
 @end
 
+@class FlickrPhotoDataModel;
 @protocol FlickrDataSourceProtocol <NSObject>
 @property (nonatomic, weak) id<FlickrDataSourceDelegateProtocol>delegate;
+
 - (void)fetchResultsWithSearchString:(NSString *)searchString;
+- (NSInteger)numberOfItemsInSection:(NSInteger)section;
+- (FlickrPhotoDataModel *)photoDataForItemAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 #endif /* FlickrHeader_h */

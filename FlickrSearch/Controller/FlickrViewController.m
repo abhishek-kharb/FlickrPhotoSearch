@@ -7,6 +7,7 @@
 //
 
 #import "FlickrViewController.h"
+#import "FlickrPhotoCollectionViewCell.h"
 
 @interface FlickrViewController () <FlickrDataSourceDelegateProtocol, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 @property (nonatomic)id<FlickrDataSourceProtocol> dataSource;
@@ -102,6 +103,18 @@ static NSInteger kCollectionViewRowItems = 3;
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return kCollectionViewCellPadding;
+}
+
+#pragma mark - UICollectionViewDataSource Methods
+- (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    FlickrPhotoCollectionViewCell *photoCell = (FlickrPhotoCollectionViewCell *)[self.photosCollectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([FlickrPhotoCollectionViewCell class]) forIndexPath:indexPath];
+    FlickrPhotoDataModel *photoData = [self.dataSource photoDataForItemAtIndexPath:indexPath];
+    [photoCell configureCellWithPhotoData:photoData];
+    return photoCell;
+}
+
+- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [self.dataSource numberOfItemsInSection:section];
 }
 
 

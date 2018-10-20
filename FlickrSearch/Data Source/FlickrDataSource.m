@@ -59,6 +59,24 @@ static NSInteger kFlickrPageFetchSize = 24;
                                       }];
 }
 
+- (NSInteger)numberOfItemsInSection:(NSInteger)section {
+    __block NSInteger totalItems;
+    dispatch_sync([self dataProcessQueue], ^{
+        totalItems = self.searchResults.count;
+    });
+    return totalItems;
+}
+
+- (FlickrPhotoDataModel *)photoDataForItemAtIndexPath:(NSIndexPath *)indexPath {
+    __block FlickrPhotoDataModel *modelObject;
+    dispatch_sync([self dataProcessQueue], ^{
+        if (self.searchResults.count > indexPath.item) {
+            modelObject = [self.searchResults objectAtIndex:indexPath.item];
+        }
+    });
+    return modelObject;
+}
+
 #pragma mark - Utility Methods
 - (dispatch_queue_t)dataProcessQueue {
     static dispatch_queue_t dataProcessQueue;
