@@ -18,6 +18,7 @@
 @property (nonatomic) NSString *searchString;
 @end
 
+static NSString *kDataProcessQueue = @"com.flickr.data.process.queue";
 static NSString *kFlickrPhotosMethod = @"flickr.photos";
 static NSInteger kFlickrPageFetchSize = 24;
 
@@ -34,6 +35,7 @@ static NSInteger kFlickrPageFetchSize = 24;
 
 #pragma mark - FlickrDataSourceProtocol Methods
 - (void)fetchResultsWithSearchString:(NSString *)searchString {
+    [self resetCurrentFetchedDataIfNeededForSearchString:searchString];
     self.searchString = searchString;
     
     FlickrNetworkSearchParameters *requestInfo = [[FlickrNetworkSearchParameters alloc] init];
@@ -46,7 +48,7 @@ static NSInteger kFlickrPageFetchSize = 24;
     [self.networkHandler makeSearchRequestWithInfo:requestInfo
                                       successBlock:^(NSDictionary * _Nonnull responseInfo) {
                                           if (responseInfo) {
-                                              //Process received response only if the search string hasn't changed by the time we receive response
+                                              //Process received response only if the search string hasn't changed by the time we receive response.
                                               if ([searchString isEqualToString:weakSelf.searchString]) {
                                                   [weakSelf processFetchedDataWithInfo:responseInfo];
                                               }
@@ -56,7 +58,37 @@ static NSInteger kFlickrPageFetchSize = 24;
                                       }];
 }
 
+#pragma mark - Utility Methods
+- (dispatch_queue_t)dataProcessQueue {
+    static dispatch_queue_t dataProcessQueue;
+    static dispatch_once_t predicate;
+    
+    dispatch_once(&predicate, ^{
+        dataProcessQueue = dispatch_queue_create([kDataProcessQueue UTF8String], DISPATCH_QUEUE_CONCURRENT);
+    });
+    
+    return dataProcessQueue;
+}
+
 #pragma mark - Action Methods
+- (void)resetCurrentFetchedDataIfNeededForSearchString:(NSString *)searchString {
+    //If the search string has changed. Reset all current data.
+    if (![self.searchString isEqualToString:searchString]) {
+        self.nextPageToFetch = 0;
+        dispatch_barrier_async([self dataProcessQueue], ^{
+            self.searchResults = [[NSMutableArray alloc] init];
+        });
+    }
+}
+
+- (void)addDataToCurrentObjects:(NSArray <FlickrPhotoDataModel *> *)photoData {
+    //As we're using NSMutableArray, it's always safe to perform all read/write from a single thread, to avoid multiple threads modifying
+    //it at the same time, leading to EXC_BAD_ACCESS crashes.
+    dispatch_barrier_async([self dataProcessQueue], ^{
+        [self.searchResults addObjectsFromArray:photoData];
+    });
+}
+
 - (void)processFetchedDataWithInfo:(NSDictionary *)info {
     if (info) {
         NSDictionary *photos = [info valueForKey:kSearchResponsePhotos];
@@ -64,7 +96,7 @@ static NSInteger kFlickrPageFetchSize = 24;
         if (photosData && photosData.count > 0) {
             NSMutableArray <FlickrPhotoDataModel *> *preprocessedData = [[NSMutableArray alloc] init];
             for (NSDictionary *currentPhoto in photosData) {
-                //Check for all mandatory fields before appending data
+                //Check for all mandatory fields before appending data.
                 if ([FlickrSearchResponseValidator isDataValidWithInfo:currentPhoto]) {
                     FlickrPhotoDataModel *data = [[FlickrPhotoDataModel alloc] init];
                     data.farm = [currentPhoto valueForKey:kSearchResponseFarm];
@@ -78,6 +110,7 @@ static NSInteger kFlickrPageFetchSize = 24;
             }
             if (preprocessedData.count > 0) {
                 //Append data to currently maintained array
+                [self addDataToCurrentObjects:preprocessedData];
             }
         }
     }
