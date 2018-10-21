@@ -1,0 +1,16 @@
+//
+//  FlickrPrefixHeader.pch
+//  FlickrSearch
+//
+//  Created by Abhishek Kharb on 20/10/18.
+//  Copyright © 2018 Abhishek. All rights reserved.
+//
+
+#ifndef FlickrPrefixHeader_pch
+#define FlickrPrefixHeader_pch
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "FlickrHeader.h"
+
+#endif /* FlickrPrefixHeader_pch */
