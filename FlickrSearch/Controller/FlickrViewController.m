@@ -141,6 +141,7 @@ static NSInteger kCollectionViewRowItems = 3;
 #pragma mark - UICollectionViewDataSource Methods
 - (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
     FlickrPhotoCollectionViewCell *photoCell = (FlickrPhotoCollectionViewCell *)[self.photosCollectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([FlickrPhotoCollectionViewCell class]) forIndexPath:indexPath];
+    photoCell.tag = indexPath.row;
     FlickrPhotoDataModel *photoData = [self.dataSource photoDataForItemAtIndexPath:indexPath];
     [photoCell configureCellWithPhotoData:photoData];
     return photoCell;

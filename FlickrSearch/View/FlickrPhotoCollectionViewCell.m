@@ -40,11 +40,14 @@
 
 - (void)configureCellWithPhotoData:(FlickrPhotoDataModel *)photoData {
     if (photoData) {
-        NSString *initialID = photoData.identifier;
+        __weak typeof(self) weakSelf = self;
+        NSInteger currentTag = self.tag;
         [[FlickrPhotoDataManager sharedManager] thumbnailForImageWithData:photoData completion:^(NSString * _Nonnull photoID, UIImage * _Nonnull image) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                if ([photoID isEqualToString:initialID] && !self.thumbnailView.image) {
-                    [self.thumbnailView setImage:image];
+                /* By the time the image is downloaded, the cell gets re-used sometimes, thereby applying wrong image to the thumbnail. So we check for
+                 the tag to be the same as that when the image was requested. */
+                if (weakSelf.tag == currentTag) {
+                    [weakSelf.thumbnailView setImage:image];
                 }
             });
         }];
