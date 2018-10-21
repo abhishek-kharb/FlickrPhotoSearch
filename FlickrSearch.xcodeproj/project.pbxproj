@@ -21,6 +21,7 @@
 		34259591217CD5AF00CC289C /* FlickrNetworkHandlerMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259590217CD5AE00CC289C /* FlickrNetworkHandlerMock.m */; };
 		34259594217CD66700CC289C /* FlickrDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259593217CD66700CC289C /* FlickrDataSourceTests.m */; };
 		34259595217CD69C00CC289C /* FlickrDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259532217B201B00CC289C /* FlickrDataSource.m */; };
+		3425959A217CDF7700CC289C /* FlickrDataSource+Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259599217CDF7700CC289C /* FlickrDataSource+Test.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		347897C2217B1D3E008A5667 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 347897C1217B1D3E008A5667 /* Assets.xcassets */; };
 		347897C5217B1D3E008A5667 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 347897C3217B1D3E008A5667 /* LaunchScreen.storyboard */; };
 		347897C8217B1D3E008A5667 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 347897C7217B1D3E008A5667 /* main.m */; };
@@ -66,6 +67,8 @@
 		34259590217CD5AE00CC289C /* FlickrNetworkHandlerMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrNetworkHandlerMock.m; sourceTree = "<group>"; };
 		34259593217CD66700CC289C /* FlickrDataSourceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrDataSourceTests.m; sourceTree = "<group>"; };
 		34259597217CD7C600CC289C /* FlickrPrefixHeaderTest.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPrefixHeaderTest.pch; sourceTree = "<group>"; };
+		34259598217CDF7700CC289C /* FlickrDataSource+Test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FlickrDataSource+Test.h"; sourceTree = "<group>"; };
+		34259599217CDF7700CC289C /* FlickrDataSource+Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FlickrDataSource+Test.m"; sourceTree = "<group>"; };
 		347897B5217B1D3D008A5667 /* FlickrSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		347897C1217B1D3E008A5667 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		347897C4217B1D3E008A5667 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -193,6 +196,8 @@
 			isa = PBXGroup;
 			children = (
 				34259593217CD66700CC289C /* FlickrDataSourceTests.m */,
+				34259598217CDF7700CC289C /* FlickrDataSource+Test.h */,
+				34259599217CDF7700CC289C /* FlickrDataSource+Test.m */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -342,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3425959A217CDF7700CC289C /* FlickrDataSource+Test.m in Sources */,
 				34259591217CD5AF00CC289C /* FlickrNetworkHandlerMock.m in Sources */,
 				34259594217CD66700CC289C /* FlickrDataSourceTests.m in Sources */,
 				34259576217CD0B400CC289C /* FlickrSearchTests.m in Sources */,
