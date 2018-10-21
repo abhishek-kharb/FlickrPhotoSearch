@@ -22,6 +22,12 @@
 		34259594217CD66700CC289C /* FlickrDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259593217CD66700CC289C /* FlickrDataSourceTests.m */; };
 		34259595217CD69C00CC289C /* FlickrDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259532217B201B00CC289C /* FlickrDataSource.m */; };
 		3425959A217CDF7700CC289C /* FlickrDataSource+Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259599217CDF7700CC289C /* FlickrDataSource+Test.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		3425959E217CEA1700CC289C /* FlickrDataSourceMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3425959D217CEA1700CC289C /* FlickrDataSourceMock.m */; };
+		3425959F217CEAE600CC289C /* FlickrPhotoDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259546217B430000CC289C /* FlickrPhotoDataModel.m */; };
+		342595A1217CEB0300CC289C /* FlickrViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 342595A0217CEB0300CC289C /* FlickrViewControllerTests.m */; };
+		342595A2217CEB5E00CC289C /* FlickrViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259536217B204900CC289C /* FlickrViewController.m */; };
+		342595A5217CED1200CC289C /* FlickrViewController+Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 342595A4217CED1200CC289C /* FlickrViewController+Test.m */; settings = {COMPILER_FLAGS = "-w"; }; };
+		342595A6217CEEA800CC289C /* FlickrPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34259550217B582A00CC289C /* FlickrPhotoCollectionViewCell.m */; };
 		347897C2217B1D3E008A5667 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 347897C1217B1D3E008A5667 /* Assets.xcassets */; };
 		347897C5217B1D3E008A5667 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 347897C3217B1D3E008A5667 /* LaunchScreen.storyboard */; };
 		347897C8217B1D3E008A5667 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 347897C7217B1D3E008A5667 /* main.m */; };
@@ -69,6 +75,11 @@
 		34259597217CD7C600CC289C /* FlickrPrefixHeaderTest.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPrefixHeaderTest.pch; sourceTree = "<group>"; };
 		34259598217CDF7700CC289C /* FlickrDataSource+Test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FlickrDataSource+Test.h"; sourceTree = "<group>"; };
 		34259599217CDF7700CC289C /* FlickrDataSource+Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FlickrDataSource+Test.m"; sourceTree = "<group>"; };
+		3425959C217CEA1700CC289C /* FlickrDataSourceMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrDataSourceMock.h; sourceTree = "<group>"; };
+		3425959D217CEA1700CC289C /* FlickrDataSourceMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrDataSourceMock.m; sourceTree = "<group>"; };
+		342595A0217CEB0300CC289C /* FlickrViewControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrViewControllerTests.m; sourceTree = "<group>"; };
+		342595A3217CED1200CC289C /* FlickrViewController+Test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FlickrViewController+Test.h"; sourceTree = "<group>"; };
+		342595A4217CED1200CC289C /* FlickrViewController+Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FlickrViewController+Test.m"; sourceTree = "<group>"; };
 		347897B5217B1D3D008A5667 /* FlickrSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		347897C1217B1D3E008A5667 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		347897C4217B1D3E008A5667 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -180,6 +191,8 @@
 			children = (
 				3425958F217CD5AE00CC289C /* FlickrNetworkHandlerMock.h */,
 				34259590217CD5AE00CC289C /* FlickrNetworkHandlerMock.m */,
+				3425959C217CEA1700CC289C /* FlickrDataSourceMock.h */,
+				3425959D217CEA1700CC289C /* FlickrDataSourceMock.m */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -187,6 +200,7 @@
 		3425958E217CD56000CC289C /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3425959B217CE9F600CC289C /* Controller */,
 				34259592217CD64200CC289C /* DataSource */,
 			);
 			path = Tests;
@@ -208,6 +222,16 @@
 				34259597217CD7C600CC289C /* FlickrPrefixHeaderTest.pch */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3425959B217CE9F600CC289C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				342595A0217CEB0300CC289C /* FlickrViewControllerTests.m */,
+				342595A3217CED1200CC289C /* FlickrViewController+Test.h */,
+				342595A4217CED1200CC289C /* FlickrViewController+Test.m */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		347897AC217B1D3D008A5667 = {
@@ -347,7 +371,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				342595A6217CEEA800CC289C /* FlickrPhotoCollectionViewCell.m in Sources */,
+				342595A2217CEB5E00CC289C /* FlickrViewController.m in Sources */,
+				342595A5217CED1200CC289C /* FlickrViewController+Test.m in Sources */,
+				3425959F217CEAE600CC289C /* FlickrPhotoDataModel.m in Sources */,
 				3425959A217CDF7700CC289C /* FlickrDataSource+Test.m in Sources */,
+				3425959E217CEA1700CC289C /* FlickrDataSourceMock.m in Sources */,
+				342595A1217CEB0300CC289C /* FlickrViewControllerTests.m in Sources */,
 				34259591217CD5AF00CC289C /* FlickrNetworkHandlerMock.m in Sources */,
 				34259594217CD66700CC289C /* FlickrDataSourceTests.m in Sources */,
 				34259576217CD0B400CC289C /* FlickrSearchTests.m in Sources */,
