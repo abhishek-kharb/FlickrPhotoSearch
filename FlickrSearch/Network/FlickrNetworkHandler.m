@@ -32,7 +32,7 @@ static const NSString *kFlickrSearchBaseApi = @"https://api.flickr.com/services/
     NSInteger resultsPerPage = requestInfo.resultsPerPage;
     NSInteger pageToFetch = requestInfo.pageToFetch;
     
-    NSString *constructedURL = [NSString stringWithFormat:@"%@?method=%@.search&api_key=%@&tags=%@&page=%ld&per_page=%ld&format=json&nojsoncallback=1",kFlickrSearchBaseApi, method ,self.apiKey, keyword,pageToFetch,resultsPerPage];
+    NSString *constructedURL = [NSString stringWithFormat:@"%@?method=%@.search&api_key=%@&tags=%@&page=%ld&per_page=%ld&format=json&nojsoncallback=1",kFlickrSearchBaseApi, method ,self.apiKey, keyword,(long)pageToFetch,(long)resultsPerPage];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:constructedURL]];
@@ -64,7 +64,7 @@ static const NSString *kFlickrSearchBaseApi = @"https://api.flickr.com/services/
     NSString *secret = data.secret ?: @"";
     NSString *photoID = data.identifier ?: @"";
     
-    NSString *urlString = [NSString stringWithFormat:@"https://farm%ld.static.flickr.com/%@/%@_%@.jpg",farm,server,photoID,secret];
+    NSString *urlString = [NSString stringWithFormat:@"https://farm%ld.static.flickr.com/%@/%@_%@.jpg",(long)farm,server,photoID,secret];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:[NSURL URLWithString:urlString]];

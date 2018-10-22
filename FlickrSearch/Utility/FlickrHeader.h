@@ -8,6 +8,7 @@
 
 #ifndef FlickrHeader_h
 #define FlickrHeader_h
+#define kMemoryWarningNotificationString @"memory.warning.notif"
 
 typedef void (^FlickrSearchResultSuccessBlock)(NSDictionary *responseInfo);
 typedef void (^FlickrSearchResultFailureBlock)(NSError *error);

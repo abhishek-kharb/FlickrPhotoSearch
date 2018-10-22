@@ -23,8 +23,13 @@
         manager = [[FlickrPhotoDataManager alloc] init];
         manager.photosCache = [[NSCache alloc] init];
         manager.networkHandler = [[FlickrNetworkHandler alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:manager selector:@selector(clearLocalCache:) name:kMemoryWarningNotificationString object:nil];
     });
     return manager;
+}
+
+- (void)clearLocalCache:(id)sender {
+    [self.photosCache removeAllObjects];
 }
 
 - (void)thumbnailForImageWithData:(FlickrPhotoDataModel *)data completion:(nonnull void (^)(NSString * _Nonnull, UIImage * _Nonnull))completion {

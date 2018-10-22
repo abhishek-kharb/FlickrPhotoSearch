@@ -47,6 +47,10 @@ static NSInteger kCollectionViewRowItems = 3;
     [self setupActivityIndicator];
 }
 
+- (void)didReceiveMemoryWarning {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kMemoryWarningNotificationString object:nil];
+}
+
 #pragma mark - Action Methods
 - (void)setupSearchBar {
     //We calculate these programatically as statusbar height varies for iPhoneX and below models.
