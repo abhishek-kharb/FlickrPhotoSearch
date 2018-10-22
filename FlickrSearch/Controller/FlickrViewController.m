@@ -168,6 +168,7 @@ static NSInteger kCollectionViewRowItems = 3;
         self.isFetchInProgress = YES;
         self.isFetchedDataAvailable = NO;
         [self.activityIndicator setHidden:NO];
+        [self.activityIndicator startAnimating];
         [searchBar resignFirstResponder];
         [self.dataSource fetchResultsWithSearchString:self.searchString];
     } else {
@@ -187,6 +188,7 @@ static NSInteger kCollectionViewRowItems = 3;
         self.isFetchedDataAvailable = YES;
         self.isFetchInProgress = NO;
         [self.activityIndicator setHidden:YES];
+        [self.activityIndicator stopAnimating];
         [self.photosCollectionView reloadData];
     });
 }
